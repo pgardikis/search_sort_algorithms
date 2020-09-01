@@ -1,4 +1,4 @@
-## search_sort_algorithms
+## Algorithms for searching and sorting
 Implementation in python of Merge Sort, Linear Search, Interpolation Search and Binary Search algorithms.
 
 ### How to use
