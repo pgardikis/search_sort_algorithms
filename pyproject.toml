@@ -9,8 +9,15 @@ description = "Merge sort, linear search, binary search and interpolation search
 readme = "README.md"
 requires-python = ">=3.9"
 
+[project.optional-dependencies]
+test = ["pytest"]
+
 [project.scripts]
 search-sort = "search_sort.cli:main"
 
 [tool.setuptools]
 packages = ["search_sort"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
