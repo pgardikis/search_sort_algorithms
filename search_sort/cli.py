@@ -1,5 +1,6 @@
 import random
 
+from . import benchmark
 from .searching import binary_search, interpolation_search, linear_search
 from .sorting import merge_sort, quick_sort
 
@@ -18,7 +19,7 @@ def find_sort():
     lst = new_random_list()
 
     while True:
-        print(" \nChoose an option\n 1)Merge Sort\n 2)Quick Sort\n 3)Linear Search\n 4)Binary Search\n 5)Interpolation Search\n 6)Generate a new random list\n 0)EXIT\n")
+        print(" \nChoose an option\n 1)Merge Sort\n 2)Quick Sort\n 3)Linear Search\n 4)Binary Search\n 5)Interpolation Search\n 6)Generate a new random list\n 7)Benchmark all algorithms\n 0)EXIT\n")
         choice = input("Enter your option's number: ").strip()
 
         if choice == "1":
@@ -53,6 +54,9 @@ def find_sort():
                 print("Number not found!")
         elif choice == "6":
             lst = new_random_list()
+        elif choice == "7":
+            print("Timing every algorithm, this takes a few seconds...")
+            print(benchmark.format_table(benchmark.run()))
         elif choice == "0":
             return
         else:
