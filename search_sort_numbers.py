@@ -1,18 +1,31 @@
+import sys
+
+
 def main():
     file_t = input("Enter txt filename or path: ")
-    find_sort(file_t)
+    try:
+        find_sort(file_t)
+    except (EOFError, KeyboardInterrupt):
+        print()
 
 def find_sort(filename):
-    lst = file_toList(filename)
+    try:
+        lst = file_toList(filename)
+    except OSError as e:
+        print("Could not open file:", e)
+        sys.exit(1)
+    except ValueError:
+        print("The file must contain one integer per line!")
+        sys.exit(1)
 
-    while(1):
+    while True:
         print(" \nChoose an option\n 1)Merge Sort\n 2)Linear Search\n 3)Binary Search\n 4)Interpolation Search\n 0)EXIT\n")
         choice = input("Enter your option's number: ").strip()
 
         if choice == "1":
             print("The sorted list is", preview(merge_sort(lst)))
         elif choice == "2":
-            number = int(input("Enter the number you want to find it's index: "))
+            number = read_number()
             print("Starting Linear Search for number", number, "in list", preview(lst))
             index = linear_search(lst, number)
             if index != -1:
@@ -20,7 +33,7 @@ def find_sort(filename):
             else:
                 print("Number not found!")
         elif choice == "3":
-            number = int(input("Enter the number you want to find it's index: "))
+            number = read_number()
             lst.sort()
             print("Starting Binary Search for number", number, "in sorted list", preview(lst))
             index = binary_search(lst, 0, len(lst) - 1, number)
@@ -29,7 +42,7 @@ def find_sort(filename):
             else:
                 print("Number not found!")
         elif choice == "4":
-            number = int(input("Enter the number you want to find it's index: "))
+            number = read_number()
             lst.sort()
             print("Starting Interpolation Search for number", number, "in sorted list", preview(lst))
             index = interpolation_search(lst, number)
@@ -38,9 +51,16 @@ def find_sort(filename):
             else:
                 print("Number not found!")
         elif choice == "0":
-            exit()
+            return
         else:
-            print("Try again, choice", choice,"doesn't exist!")
+            print("Try again, choice", choice, "doesn't exist!")
+
+def read_number():
+    while True:
+        try:
+            return int(input("Enter the number you want to find its index: "))
+        except ValueError:
+            print("Please enter a whole number!")
 
 def preview(plst, size=10):
     # long lists are shortened so the terminal isn't flooded
@@ -51,7 +71,7 @@ def preview(plst, size=10):
 
 def file_toList(ftl):
     with open(ftl) as f:
-        ilist = f.read().splitlines()
+        ilist = f.read().split()
         ilist = [int(i) for i in ilist]
 
     return ilist
