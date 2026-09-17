@@ -1,30 +1,22 @@
-# Algorithms for searching and sorting
+# Search and Sort Algorithms
 
 [![Tests](https://github.com/pgardikis/search-sort-algorithms/actions/workflows/tests.yml/badge.svg)](https://github.com/pgardikis/search-sort-algorithms/actions/workflows/tests.yml)
+[![Python](https://img.shields.io/badge/python-3.10%20%7C%203.12%20%7C%203.14-blue)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
-Merge Sort, Quick Sort, Linear Search, Binary Search and Interpolation Search implemented from scratch in Python, without using Python's built-in sorting or searching.
+Merge Sort, Quick Sort, Linear Search, Binary Search and Interpolation Search, implemented from scratch in Python.
 
-## Algorithms
+The program generates a list of random numbers, runs the algorithms on it and can time them against each other, so the difference between O(n) and O(log n) is something you can watch rather than just read about.
 
-| Algorithm | File | List must be sorted | Time (average) | Time (worst) | Extra space |
-|---|---|---|---|---|---|
-| Merge Sort | `search_sort/sorting.py` | – | O(n log n) | O(n log n) | O(n) |
-| Quick Sort | `search_sort/sorting.py` | – | O(n log n) | O(n^2)** | O(log n) |
-| Linear Search | `search_sort/searching.py` | No | O(n) | O(n) | O(1) |
-| Binary Search | `search_sort/searching.py` | Yes | O(log n) | O(log n) | O(1) |
-| Interpolation Search | `search_sort/searching.py` | Yes | O(log log n)* | O(n) | O(1) |
+---
 
-\* when the numbers are evenly spread, which is the case for the random lists this program generates.
+## Quick start
 
-\*\* the pivot is the median of three values and equal numbers are grouped in one pass, so sorted, reversed and repeated-heavy lists stay fast in practice.
-
-## Running
-
-Requires Python 3.10 or newer. There are no other dependencies.
-
-From the project folder:
+Requires Python 3.10 or newer. There are no dependencies.
 
 ```bash
+git clone https://github.com/pgardikis/search-sort-algorithms.git
+cd search-sort-algorithms
 python3 -m search_sort
 ```
 
@@ -35,13 +27,32 @@ pip install .
 search-sort
 ```
 
+---
+
+## The algorithms
+
+| Algorithm | Sorted input | Average | Worst | Extra space | Notes |
+|:---|:---:|:---:|:---:|:---:|:---|
+| **Merge Sort** | – | `O(n log n)` | `O(n log n)` | `O(n)` | Stable: equal numbers keep their order |
+| **Quick Sort** | – | `O(n log n)` | `O(n²)` | `O(log n)` | Median-of-three pivot, three-way partition |
+| **Linear Search** | no | `O(n)` | `O(n)` | `O(1)` | Checks every number in turn |
+| **Binary Search** | yes | `O(log n)` | `O(log n)` | `O(1)` | Halves the range each step |
+| **Interpolation Search** | yes | `O(log log n)` | `O(n)` | `O(1)` | Fastest when numbers are evenly spread |
+
+> **Quick Sort's worst case is unlikely here.** The pivot is the median of three values and equal numbers are grouped in a single pass, so already sorted, reversed and repetitive lists all stay fast.
+
+Sources: [`sorting.py`](search_sort/sorting.py) and [`searching.py`](search_sort/searching.py). Every function carries a docstring explaining how it works and what it costs.
+
+---
+
 ## How it works
 
-1. The program asks how many random numbers to generate (press Enter for 100,000, up to 1,000,000). Each number is between 0 and 1,000,000.
-2. It shows a preview of the list and suggests a number that is in it, so you have something to search for.
-3. Pick an option from the menu:
+1. The program asks **how many random numbers** to generate: press Enter for 100,000, up to a maximum of 1,000,000. Each number is between 0 and 1,000,000.
+2. It previews the list and **suggests a number that is in it**, so you have something to search for.
+3. You pick an option:
 
-```
+```text
+Choose an option
  1)Merge Sort
  2)Quick Sort
  3)Linear Search
@@ -52,51 +63,74 @@ search-sort
  0)EXIT
 ```
 
-Binary and Interpolation Search first sort the list with Merge Sort, so the index they report is the position in the sorted list. Linear Search works on the list in its original order.
+Binary and Interpolation Search sort the list with Merge Sort first, so the index they report is the position in the **sorted** list. Linear Search works on the list in its original order. The sorted copy is reused, so repeated searches do not sort again.
+
+---
 
 ## Benchmark
 
-Menu option 7 times every algorithm on random lists of 1,000, 10,000 and 100,000 numbers. Results from one run:
+Option **7** times every algorithm on random lists of 1,000, 10,000 and 100,000 numbers, keeping the fastest of three runs per measurement.
 
-**Sorting a list** (milliseconds, lower is better)
+<details open>
+<summary><b>Sorting a list</b> (milliseconds, lower is better)</summary>
 
 | List size | Merge Sort | Quick Sort |
 |---:|---:|---:|
-| 1,000 | 1.039 | **0.711** |
-| 10,000 | 11.887 | **9.118** |
-| 100,000 | 146.589 | **123.460** |
+| 1,000 | 1.055 | **0.720** |
+| 10,000 | 13.120 | **9.087** |
+| 100,000 | 144.514 | **112.164** |
 
-**Finding one number** (microseconds, average of 200 searches)
+</details>
+
+<details open>
+<summary><b>Finding one number</b> (microseconds, average of 200 searches)</summary>
 
 | List size | Linear Search | Binary Search | Interpolation Search |
 |---:|---:|---:|---:|
-| 1,000 | 9.397 | 0.599 | **0.427** |
-| 10,000 | 116.133 | 0.873 | **0.532** |
-| 100,000 | 932.197 | 1.401 | **0.698** |
+| 1,000 | 10.055 | 0.577 | **0.405** |
+| 10,000 | 97.381 | 0.755 | **0.465** |
+| 100,000 | 885.517 | 0.979 | **0.593** |
 
-Quick sort is consistently faster than merge sort here, and both grow in step with the list size. The searches show the difference between the complexities: a list 100 times longer makes linear search about 100 times slower, while binary search barely moves and interpolation search stays fastest because the random numbers are evenly spread.
+</details>
 
-## Running the tests
+**What the numbers say:** a list 100 times longer makes Linear Search about 90 times slower, while Binary Search barely moves — `O(n)` against `O(log n)`, measured rather than assumed. Interpolation Search stays ahead of Binary Search because the random numbers are evenly spread, which is exactly the case it is built for. Quick Sort beats Merge Sort throughout, mostly because it swaps numbers in place instead of building new lists.
+
+*Measured on one machine; your numbers will differ, but the shape of the curves will not.*
+
+---
+
+## Tests
 
 ```bash
 pip install -e ".[test]"
 pytest
 ```
 
-The tests compare the algorithms with Python's built-in `sorted()` on edge cases (empty lists, duplicates, negative numbers, missing numbers) and hundreds of random lists.
+91 tests covering:
+
+- **Edge cases** — empty lists, single items, duplicates, negative numbers, already sorted and reversed input
+- **Random lists** — hundreds of them per run, compared against Python's built-in `sorted()`
+- **Regression tests** — the `IndexError` and divide-by-zero bugs this project started with
+- **The menu and the benchmark** — input validation, the size limit, and the sorted list being reused
+
+Every push runs them on Python 3.10, 3.12 and 3.14 through [GitHub Actions](.github/workflows/tests.yml).
+
+---
 
 ## Project structure
 
-```
+```text
 search_sort/
-  sorting.py     Merge Sort and Quick Sort
-  searching.py   Linear, Binary and Interpolation Search
-  cli.py         interactive menu and random list generation
-  benchmark.py   times the algorithms against each other
-  __main__.py    lets you run the package with python3 -m search_sort
-tests/           pytest tests for the algorithms, menu helpers and benchmark
-pyproject.toml   package settings, makes it installable with pip
+├── sorting.py      Merge Sort and Quick Sort
+├── searching.py    Linear, Binary and Interpolation Search
+├── cli.py          interactive menu and random list generation
+├── benchmark.py    times the algorithms against each other
+└── __main__.py     entry point for python3 -m search_sort
+tests/              pytest suite for all of the above
+pyproject.toml      package settings and pytest configuration
 ```
+
+---
 
 ## License
 
