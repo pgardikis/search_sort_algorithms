@@ -1,6 +1,6 @@
 # Algorithms for searching and sorting
 
-[![Tests](https://github.com/pgardikis/search_sort_algorithms/actions/workflows/tests.yml/badge.svg)](https://github.com/pgardikis/search_sort_algorithms/actions/workflows/tests.yml)
+[![Tests](https://github.com/pgardikis/search-sort-algorithms/actions/workflows/tests.yml/badge.svg)](https://github.com/pgardikis/search-sort-algorithms/actions/workflows/tests.yml)
 
 Merge Sort, Quick Sort, Linear Search, Binary Search and Interpolation Search implemented from scratch in Python, without using Python's built-in sorting or searching.
 
