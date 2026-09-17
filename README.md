@@ -2,18 +2,21 @@
 
 [![Tests](https://github.com/pgardikis/search_sort_algorithms/actions/workflows/tests.yml/badge.svg)](https://github.com/pgardikis/search_sort_algorithms/actions/workflows/tests.yml)
 
-Merge Sort, Linear Search, Binary Search and Interpolation Search implemented from scratch in Python, without using Python's built-in sorting or searching.
+Merge Sort, Quick Sort, Linear Search, Binary Search and Interpolation Search implemented from scratch in Python, without using Python's built-in sorting or searching.
 
 ## Algorithms
 
 | Algorithm | File | List must be sorted | Time (average) | Time (worst) | Extra space |
 |---|---|---|---|---|---|
 | Merge Sort | `search_sort/sorting.py` | – | O(n log n) | O(n log n) | O(n) |
+| Quick Sort | `search_sort/sorting.py` | – | O(n log n) | O(n^2)** | O(log n) |
 | Linear Search | `search_sort/searching.py` | No | O(n) | O(n) | O(1) |
 | Binary Search | `search_sort/searching.py` | Yes | O(log n) | O(log n) | O(1) |
 | Interpolation Search | `search_sort/searching.py` | Yes | O(log log n)* | O(n) | O(1) |
 
 \* when the numbers are evenly spread, which is the case for the random lists this program generates.
+
+\*\* the pivot is the median of three values and equal numbers are grouped in one pass, so sorted, reversed and repeated-heavy lists stay fast in practice.
 
 ## Running
 
@@ -40,10 +43,11 @@ search-sort
 
 ```
  1)Merge Sort
- 2)Linear Search
- 3)Binary Search
- 4)Interpolation Search
- 5)Generate a new random list
+ 2)Quick Sort
+ 3)Linear Search
+ 4)Binary Search
+ 5)Interpolation Search
+ 6)Generate a new random list
  0)EXIT
 ```
 
@@ -73,7 +77,7 @@ binary_search(numbers, 100)           # -1 (not found)
 
 ```
 search_sort/
-  sorting.py     Merge Sort
+  sorting.py     Merge Sort and Quick Sort
   searching.py   Linear, Binary and Interpolation Search
   cli.py         interactive menu and random list generation
   __main__.py    lets you run the package with python3 -m search_sort
