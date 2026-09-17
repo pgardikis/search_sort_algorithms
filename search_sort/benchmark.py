@@ -66,7 +66,13 @@ def search_all(search, items, targets):
         search(items, target)
 
 
-def run(sizes=SIZES, searches_per_size=SEARCHES_PER_SIZE, max_value=None, seed=None, repeat=REPEATS):
+def run(
+    sizes=SIZES,
+    searches_per_size=SEARCHES_PER_SIZE,
+    max_value=None,
+    seed=None,
+    repeat=REPEATS,
+):
     """Time every algorithm on a random list of each size.
 
     The numbers of each list run from 0 to `max_value`, or to ten times the
