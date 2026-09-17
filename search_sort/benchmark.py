@@ -52,6 +52,9 @@ def time_sorts(numbers, repeat=REPEATS):
 
 def time_searches(numbers, targets, repeat=REPEATS):
     """Return the average seconds each search takes to find one number."""
+    if not targets:
+        return {name: 0.0 for name, _, _ in SEARCHES}
+
     ordered = merge_sort(numbers)
     results = {}
     for name, search, needs_sorted in SEARCHES:
@@ -86,7 +89,7 @@ def run(
     for size in sizes:
         top = max_value if max_value is not None else size * 10
         numbers = random_numbers(size, top, rng)
-        targets = [rng.choice(numbers) for _ in range(searches_per_size)]
+        targets = [rng.choice(numbers) for _ in range(searches_per_size)] if numbers else []
         results.append(
             Result(
                 size=size,

@@ -7,7 +7,7 @@ from .searching import binary_search, interpolation_search, linear_search
 from .sorting import merge_sort, quick_sort
 
 DEFAULT_SIZE = 100000
-MAX_SIZE = 1000000  # bigger lists make merge sort slow enough to look stuck
+MAX_SIZE = 1000000  # bigger lists make sorting slow enough to look stuck
 MAX_VALUE = 1000000
 
 MENU = """
@@ -44,9 +44,11 @@ def menu():
         choice = input("Enter your option's number: ").strip()
 
         if choice == "1":
-            print("The sorted list is", preview(merge_sort(numbers)))
+            ordered = merge_sort(numbers)
+            print("The sorted list is", preview(ordered))
         elif choice == "2":
-            print("The sorted list is", preview(quick_sort(numbers)))
+            ordered = quick_sort(numbers)
+            print("The sorted list is", preview(ordered))
         elif choice == "3":
             target = read_number()
             print(f"Starting Linear Search for number {target} in list {preview(numbers)}")
