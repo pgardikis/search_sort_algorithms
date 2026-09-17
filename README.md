@@ -34,12 +34,12 @@ search-sort
 | Algorithm | Sorted input | Average | Worst | Extra space | Notes |
 |:---|:---:|:---:|:---:|:---:|:---|
 | **Merge Sort** | – | `O(n log n)` | `O(n log n)` | `O(n)` | Stable: equal numbers keep their order |
-| **Quick Sort** | – | `O(n log n)` | `O(n²)` | `O(log n)` | Median-of-three pivot, three-way partition |
+| **Quick Sort** | – | `O(n log n)` | `O(n²)` | `O(log n)` | Random pivot, three-way partition |
 | **Linear Search** | no | `O(n)` | `O(n)` | `O(1)` | Checks every number in turn |
 | **Binary Search** | yes | `O(log n)` | `O(log n)` | `O(1)` | Halves the range each step |
 | **Interpolation Search** | yes | `O(log log n)` | `O(n)` | `O(1)` | Fastest when numbers are evenly spread |
 
-> **Quick Sort's worst case is unlikely here.** The pivot is the median of three values and equal numbers are grouped in a single pass, so already sorted, reversed and repetitive lists all stay fast.
+> **Quick Sort's worst case does not depend on the input.** The pivot is picked at random, so no arrangement of the numbers is reliably slow, and equal numbers are grouped in a single pass, which makes repetitive lists very fast. Picking the pivot from fixed positions instead is what [used to make tidy input quadratic](search_sort/sorting.py).
 
 Sources: [`sorting.py`](search_sort/sorting.py) and [`searching.py`](search_sort/searching.py). Every function carries a docstring explaining how it works and what it costs.
 
@@ -76,9 +76,9 @@ Option **7** times every algorithm on random lists of 1,000, 10,000 and 100,000 
 
 | List size | Merge Sort | Quick Sort |
 |---:|---:|---:|
-| 1,000 | 1.055 | **0.720** |
-| 10,000 | 13.120 | **9.087** |
-| 100,000 | 144.514 | **112.164** |
+| 1,000 | 0.898 | **0.784** |
+| 10,000 | 11.470 | **10.517** |
+| 100,000 | 136.416 | **133.550** |
 
 </details>
 
@@ -87,13 +87,28 @@ Option **7** times every algorithm on random lists of 1,000, 10,000 and 100,000 
 
 | List size | Linear Search | Binary Search | Interpolation Search |
 |---:|---:|---:|---:|
-| 1,000 | 10.055 | 0.577 | **0.405** |
-| 10,000 | 97.381 | 0.755 | **0.465** |
-| 100,000 | 885.517 | 0.979 | **0.593** |
+| 1,000 | 8.907 | 0.537 | **0.413** |
+| 10,000 | 94.229 | 0.749 | **0.502** |
+| 100,000 | 857.402 | 0.973 | **0.605** |
 
 </details>
 
-**What the numbers say:** a list 100 times longer makes Linear Search about 90 times slower, while Binary Search barely moves — `O(n)` against `O(log n)`, measured rather than assumed. Interpolation Search stays ahead of Binary Search because the random numbers are evenly spread, which is exactly the case it is built for. Quick Sort beats Merge Sort throughout, mostly because it swaps numbers in place instead of building new lists.
+**What the numbers say:** a list 100 times longer makes Linear Search about 90 times slower, while Binary Search barely moves — `O(n)` against `O(log n)`, measured rather than assumed. Interpolation Search stays ahead of Binary Search because the random numbers are evenly spread, which is exactly the case it is built for. The two sorts are close on random input, and which one wins depends on how the numbers are arranged:
+
+<details>
+<summary><b>The same sorts on arranged input</b> (milliseconds, 100,000 numbers)</summary>
+
+| Arrangement | Merge Sort | Quick Sort |
+|:---|---:|---:|
+| Random | 141 | **138** |
+| Already sorted | **85** | 126 |
+| Reversed | **88** | 121 |
+| Organ pipe (up then down) | **89** | 109 |
+| All numbers equal | 83 | **3** |
+
+Merge Sort is quicker on tidy input, because a merge of two already ordered halves ends early. Quick Sort wins by a wide margin when the list is full of repeats, because its three-way partition puts every equal number in place in a single pass.
+
+</details>
 
 *Measured on one machine; your numbers will differ, but the shape of the curves will not.*
 
@@ -106,11 +121,11 @@ pip install -e ".[test]"
 pytest
 ```
 
-91 tests covering:
+The suite covers:
 
 - **Edge cases** — empty lists, single items, duplicates, negative numbers, already sorted and reversed input
 - **Random lists** — hundreds of them per run, compared against Python's built-in `sorted()`
-- **Regression tests** — the `IndexError` and divide-by-zero bugs this project started with
+- **Regression tests** — the `IndexError`, divide-by-zero and quadratic-pivot bugs this project has had
 - **The menu and the benchmark** — input validation, the size limit, and the sorted list being reused
 
 Every push runs them on Python 3.10, 3.12 and 3.14 through [GitHub Actions](.github/workflows/tests.yml).
@@ -121,6 +136,7 @@ Every push runs them on Python 3.10, 3.12 and 3.14 through [GitHub Actions](.git
 
 ```text
 search_sort/
+├── __init__.py     marks the folder as a package
 ├── sorting.py      Merge Sort and Quick Sort
 ├── searching.py    Linear, Binary and Interpolation Search
 ├── cli.py          interactive menu and random list generation
