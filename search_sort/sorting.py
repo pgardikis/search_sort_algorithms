@@ -1,32 +1,24 @@
 # Merge Sort
-def merge_sort(mlst):
+def merge_sort(items):
+    if len(items) <= 1:
+        return list(items)
 
-    if len(mlst) > 1:
-        mid = len(mlst) // 2 # finds the middle index of the list and separates the list into two new lists
-        lhalf = mlst[:mid]
-        rhalf = mlst[mid:]
+    mid = len(items) // 2  # finds the middle index of the list and separates the list into two halves
+    left = merge_sort(items[:mid])
+    right = merge_sort(items[mid:])
 
-        merge_sort(lhalf)
-        merge_sort(rhalf)
-
-        i = 0
-        j = 0
-        k = 0
-
-        while len(lhalf) > i and len(rhalf) > j:
-            if lhalf[i] <= rhalf[j]:
-                mlst[k] = lhalf[i]
-                i += 1
-            else:
-                mlst[k] = rhalf[j]
-                j += 1
-            k += 1
-        while len(lhalf) > i:
-            mlst[k] = lhalf[i]
+    merged = []
+    i = 0
+    j = 0
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:  # <= keeps equal numbers in their original order
+            merged.append(left[i])
             i += 1
-            k += 1
-        while len(rhalf) > j:
-            mlst[k] = rhalf[j]
+        else:
+            merged.append(right[j])
             j += 1
-            k += 1
-    return mlst
+
+    # one half is used up, the rest of the other half is already sorted
+    merged.extend(left[i:])
+    merged.extend(right[j:])
+    return merged
