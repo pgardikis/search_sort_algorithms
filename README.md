@@ -48,10 +48,31 @@ search-sort
  4)Binary Search
  5)Interpolation Search
  6)Generate a new random list
+ 7)Benchmark all algorithms
  0)EXIT
 ```
 
 Binary and Interpolation Search first sort the list with Merge Sort, so the index they report is the position in the sorted list. Linear Search works on the list in its original order.
+
+## Benchmark
+
+Menu option 7 times every algorithm on random lists of 1,000, 10,000 and 100,000 numbers. Example run:
+
+```
+Sorting a list (milliseconds)
+      size            Merge Sort            Quick Sort
+      1000                 1.039                 0.711
+     10000                11.887                 9.118
+    100000               146.589               123.460
+
+Finding one number (microseconds, average of 200 searches)
+      size         Linear Search         Binary Search  Interpolation Search
+      1000                 9.397                 0.599                 0.427
+     10000               116.133                 0.873                 0.532
+    100000               932.197                 1.401                 0.698
+```
+
+Quick sort is consistently faster than merge sort here, and both grow in step with the list size. The searches show the difference between the complexities: a list 100 times longer makes linear search about 100 times slower, while binary search barely moves and interpolation search stays fastest because the random numbers are evenly spread.
 
 ## Running the tests
 
@@ -80,7 +101,8 @@ search_sort/
   sorting.py     Merge Sort and Quick Sort
   searching.py   Linear, Binary and Interpolation Search
   cli.py         interactive menu and random list generation
+  benchmark.py   times the algorithms against each other
   __main__.py    lets you run the package with python3 -m search_sort
-tests/           pytest tests for the algorithms and the menu helpers
+tests/           pytest tests for the algorithms, menu helpers and benchmark
 pyproject.toml   package settings, makes it installable with pip
 ```
