@@ -97,3 +97,7 @@ search_sort/
 tests/           pytest tests for the algorithms, menu helpers and benchmark
 pyproject.toml   package settings, makes it installable with pip
 ```
+
+## License
+
+[MIT](LICENSE)

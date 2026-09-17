@@ -1,13 +1,16 @@
 [build-system]
-requires = ["setuptools>=61"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "search-sort-algorithms"
 version = "1.0.0"
-description = "Merge sort, linear search, binary search and interpolation search implemented from scratch in Python."
+description = "Merge sort, quick sort, linear search, binary search and interpolation search implemented from scratch in Python."
 readme = "README.md"
 requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "pgardikis" }]
 
 [project.optional-dependencies]
 test = ["pytest"]
