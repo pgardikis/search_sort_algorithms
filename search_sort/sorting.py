@@ -1,3 +1,10 @@
+"""Sorting algorithms.
+
+Both sorts return a new sorted list and leave the list you pass in
+unchanged. Merge sort is stable, quick sort is not.
+"""
+
+
 def merge_sort(items):
     """Sort a list of numbers using merge sort.
 

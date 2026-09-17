@@ -1,3 +1,11 @@
+"""Searching algorithms.
+
+Every search returns the index of the number, or -1 when it is not in
+the list. Binary and interpolation search need the list sorted in
+ascending order; linear search works on any list.
+"""
+
+
 def linear_search(items, target):
     """Find a number by checking every item from the start.
 
@@ -13,6 +21,7 @@ def linear_search(items, target):
             return i
 
     return -1
+
 
 def binary_search(items, target):
     """Find a number in a sorted list by halving the search range.
@@ -40,6 +49,7 @@ def binary_search(items, target):
             return mid
 
     return -1
+
 
 def interpolation_search(items, target):
     """Find a number in a sorted list by estimating where it should be.
