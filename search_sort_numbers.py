@@ -107,19 +107,23 @@ def binary_search(blst, low, high, num_to_find):
     else:
         return mid # the requested number is mid
 
+# Interpolation Search
 def interpolation_search(ilst, num_to_find):
     high = len(ilst) - 1
     low = 0
 
-    while (low<=high) and (num_to_find >= ilst[low]) and (num_to_find <= ilst[high]):
-        pos = int( low + (float((high - low)/(ilst[high] - ilst[low])) * (num_to_find - ilst[low])))
+    while (low <= high) and (num_to_find >= ilst[low]) and (num_to_find <= ilst[high]):
+        if ilst[high] == ilst[low]:  # all remaining numbers are equal, avoids division by zero
+            return low if ilst[low] == num_to_find else -1
+
+        pos = low + (high - low) * (num_to_find - ilst[low]) // (ilst[high] - ilst[low])
 
         if ilst[pos] == num_to_find:
             return pos
         elif num_to_find > ilst[pos]:
             low = pos + 1
         else:
-            high = pos -1
+            high = pos - 1
 
     return -1
 
