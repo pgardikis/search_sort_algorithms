@@ -52,9 +52,8 @@ def file_toList(ftl):
 # Merge Sort
 def merge_sort(mlst):
 
-    print("Splitting", mlst)
     if len(mlst) > 1:
-        mid = len(mlst) // 2 # finds the median number of the list and separates the list into two new lists
+        mid = len(mlst) // 2 # finds the middle index of the list and separates the list into two new lists
         lhalf = mlst[:mid]
         rhalf = mlst[mid:]
 
@@ -66,7 +65,7 @@ def merge_sort(mlst):
         k = 0
 
         while len(lhalf) > i and len(rhalf) > j:
-            if lhalf[i] < rhalf[j]:
+            if lhalf[i] <= rhalf[j]:
                 mlst[k] = lhalf[i]
                 i += 1
             else:
@@ -81,7 +80,6 @@ def merge_sort(mlst):
             mlst[k] = rhalf[j]
             j += 1
             k += 1
-        print("Merging", mlst)
     return mlst
 
 # Linear Search
