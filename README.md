@@ -47,6 +47,15 @@ search-sort
 
 Binary and Interpolation Search first sort the list with Merge Sort, so the index they report is the position in the sorted list. Linear Search works on the list in its original order.
 
+## Running the tests
+
+```bash
+pip install -e ".[test]"
+pytest
+```
+
+The tests compare the algorithms with Python's built-in `sorted()` on edge cases (empty lists, duplicates, negative numbers, missing numbers) and hundreds of random lists.
+
 ## Using the algorithms in your own code
 
 ```python
@@ -66,5 +75,6 @@ search_sort/
   searching.py   Linear, Binary and Interpolation Search
   cli.py         interactive menu and random list generation
   __main__.py    lets you run the package with python3 -m search_sort
+tests/           pytest tests for the algorithms and the menu helpers
 pyproject.toml   package settings, makes it installable with pip
 ```
