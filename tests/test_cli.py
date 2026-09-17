@@ -47,3 +47,34 @@ def test_read_size_accepts_the_maximum(monkeypatch):
 def test_read_number_asks_again_on_invalid_input(monkeypatch):
     answers(monkeypatch, "abc", "1.5", "42")
     assert cli.read_number() == 42
+
+
+def test_report_found(capsys):
+    cli.report(7)
+    assert capsys.readouterr().out.strip() == "Number found at index 7"
+
+
+def test_report_not_found(capsys):
+    cli.report(-1)
+    assert capsys.readouterr().out.strip() == "Number not found!"
+
+
+def test_menu_sorts_and_searches_then_exits(monkeypatch, capsys):
+    monkeypatch.setattr(cli, "random_list", lambda size, max_value=cli.MAX_VALUE: [3, 1, 2])
+    answers(monkeypatch, "5", "1", "2", "3", "2", "4", "2", "5", "2", "9", "0")
+    cli.menu()
+    out = capsys.readouterr().out
+    assert out.count("The sorted list is [1, 2, 3]") == 2  # merge sort and quick sort
+    assert out.count("Number found at index 2") == 1  # linear search, list unsorted
+    assert out.count("Number found at index 1") == 2  # binary and interpolation, list sorted
+    assert "Try again, choice 9 doesn't exist!" in out
+
+
+def test_menu_sorts_once_for_repeated_searches(monkeypatch, capsys):
+    calls = []
+    real_merge_sort = cli.merge_sort
+    monkeypatch.setattr(cli, "merge_sort", lambda items: calls.append(1) or real_merge_sort(items))
+    monkeypatch.setattr(cli, "random_list", lambda size, max_value=cli.MAX_VALUE: [3, 1, 2])
+    answers(monkeypatch, "5", "4", "1", "5", "1", "0")
+    cli.menu()
+    assert len(calls) == 1  # the sorted copy is reused by the second search

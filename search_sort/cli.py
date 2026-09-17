@@ -1,3 +1,5 @@
+"""Interactive menu: generates random lists and runs the algorithms on them."""
+
 import random
 
 from . import benchmark
@@ -8,94 +10,122 @@ DEFAULT_SIZE = 100000
 MAX_SIZE = 1000000  # bigger lists make merge sort slow enough to look stuck
 MAX_VALUE = 1000000
 
+MENU = """
+Choose an option
+ 1)Merge Sort
+ 2)Quick Sort
+ 3)Linear Search
+ 4)Binary Search
+ 5)Interpolation Search
+ 6)Generate a new random list
+ 7)Benchmark all algorithms
+ 0)EXIT
+"""
+
+SORTED_SEARCHES = {
+    "4": ("Binary Search", binary_search),
+    "5": ("Interpolation Search", interpolation_search),
+}
+
 
 def main():
     try:
-        find_sort()
+        menu()
     except (EOFError, KeyboardInterrupt):
         print()
 
-def find_sort():
-    lst = new_random_list()
+
+def menu():
+    numbers = new_random_list()
+    ordered = None  # sorted copy, reused by the searches until a new list is generated
 
     while True:
-        print(" \nChoose an option\n 1)Merge Sort\n 2)Quick Sort\n 3)Linear Search\n 4)Binary Search\n 5)Interpolation Search\n 6)Generate a new random list\n 7)Benchmark all algorithms\n 0)EXIT\n")
+        print(MENU)
         choice = input("Enter your option's number: ").strip()
 
         if choice == "1":
-            print("The sorted list is", preview(merge_sort(lst)))
+            print("The sorted list is", preview(merge_sort(numbers)))
         elif choice == "2":
-            print("The sorted list is", preview(quick_sort(lst)))
+            print("The sorted list is", preview(quick_sort(numbers)))
         elif choice == "3":
-            number = read_number()
-            print("Starting Linear Search for number", number, "in list", preview(lst))
-            index = linear_search(lst, number)
-            if index != -1:
-                print("Number found at index ", index)
-            else:
-                print("Number not found!")
-        elif choice == "4":
-            number = read_number()
-            sorted_lst = merge_sort(lst)
-            print("Starting Binary Search for number", number, "in sorted list", preview(sorted_lst))
-            index = binary_search(sorted_lst, number)
-            if index != -1:
-                print("Number found at index ", index)
-            else:
-                print("Number not found!")
-        elif choice == "5":
-            number = read_number()
-            sorted_lst = merge_sort(lst)
-            print("Starting Interpolation Search for number", number, "in sorted list", preview(sorted_lst))
-            index = interpolation_search(sorted_lst, number)
-            if index != -1:
-                print("Number found at index ", index)
-            else:
-                print("Number not found!")
+            target = read_number()
+            print(f"Starting Linear Search for number {target} in list {preview(numbers)}")
+            report(linear_search(numbers, target))
+        elif choice in SORTED_SEARCHES:
+            name, search = SORTED_SEARCHES[choice]
+            target = read_number()
+            if ordered is None:
+                ordered = merge_sort(numbers)
+            print(f"Starting {name} for number {target} in sorted list {preview(ordered)}")
+            report(search(ordered, target))
         elif choice == "6":
-            lst = new_random_list()
+            numbers = new_random_list()
+            ordered = None
         elif choice == "7":
             print("Timing every algorithm, this takes a few seconds...")
             print(benchmark.format_table(benchmark.run()))
         elif choice == "0":
             return
         else:
-            print("Try again, choice", choice, "doesn't exist!")
+            print(f"Try again, choice {choice} doesn't exist!")
+
+
+def report(index):
+    """Print where a search found the number, or that it found nothing."""
+    if index == -1:
+        print("Number not found!")
+    else:
+        print(f"Number found at index {index}")
+
 
 def new_random_list():
+    """Ask for a size, generate that many random numbers and describe them."""
     size = read_size()
-    lst = random_list(size)
-    print("Generated {} random numbers between 0 and {}: {}".format(size, MAX_VALUE, preview(lst)))
-    if lst:
-        print("For example, try searching for", random.choice(lst))
-    return lst
+    numbers = random_list(size)
+    print(f"Generated {size} random numbers between 0 and {MAX_VALUE}: {preview(numbers)}")
+    if numbers:
+        print("For example, try searching for", random.choice(numbers))
+    return numbers
+
 
 def random_list(size, max_value=MAX_VALUE):
     return [random.randint(0, max_value) for _ in range(size)]
 
+
 def read_size():
+    """Ask how many numbers to generate until the answer is a size we can handle."""
     while True:
-        answer = input("How many random numbers, up to {}? (press Enter for {}): ".format(MAX_SIZE, DEFAULT_SIZE)).strip()
+        answer = input(
+            f"How many random numbers, up to {MAX_SIZE}? (press Enter for {DEFAULT_SIZE}): "
+        ).strip()
         if answer == "":
             return DEFAULT_SIZE
         try:
             size = int(answer)
         except ValueError:
-            size = -1
+            print(f"Please enter a whole number from 0 to {MAX_SIZE}!")
+            continue
         if 0 <= size <= MAX_SIZE:
             return size
-        print("Please enter a whole number from 0 to {}!".format(MAX_SIZE))
+        print(f"Please enter a whole number from 0 to {MAX_SIZE}!")
+
 
 def read_number():
+    """Ask for the number to search for until the answer is a whole number."""
     while True:
         try:
             return int(input("Enter the number you want to find its index: "))
         except ValueError:
             print("Please enter a whole number!")
 
-def preview(plst, size=10):
-    # long lists are shortened so the terminal isn't flooded
-    if len(plst) <= 2 * size:
-        return str(plst)
-    return "[{}, ..., {}] ({} numbers)".format(
-        ", ".join(map(str, plst[:size])), ", ".join(map(str, plst[-size:])), len(plst))
+
+def preview(items, size=10):
+    """Show short lists in full and long ones as their first and last numbers.
+
+    Keeps the terminal readable when the list has thousands of numbers.
+    """
+    if len(items) <= 2 * size:
+        return str(list(items))
+    head = ", ".join(map(str, items[:size]))
+    tail = ", ".join(map(str, items[-size:]))
+    return f"[{head}, ..., {tail}] ({len(items)} numbers)"
