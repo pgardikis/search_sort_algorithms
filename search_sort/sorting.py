@@ -4,6 +4,8 @@ Both sorts return a new sorted list and leave the list you pass in
 unchanged. Merge sort is stable, quick sort is not.
 """
 
+from random import randrange
+
 
 def merge_sort(items):
     """Sort a list of numbers using merge sort.
@@ -47,10 +49,14 @@ def quick_sort(items):
     the pivot land in the middle and need no further sorting, so lists
     with many repeated numbers stay fast.
 
+    The pivot is picked at random, so no particular arrangement of the
+    input is slow: sorted, reversed and repetitive lists all behave like
+    random ones. A run can still be unlucky, but not because of the data.
+
     Not stable: equal numbers may end up in a different order than they
     started. Returns a new sorted list. The input list is not changed.
 
-    Time: O(n log n) on average, O(n^2) in the worst case.
+    Time: O(n log n) expected, O(n^2) in the worst case.
     Extra space: O(log n) for the recursion.
     """
     result = list(items)
@@ -77,8 +83,14 @@ def _partition(items, low, high):
 
     Returns the first and last index of the numbers equal to the pivot,
     which are already in their final place.
+
+    A random pivot is what keeps the split even. Sampling fixed positions
+    such as the first, middle and last number looks reasonable but pairs
+    badly with the partition below, which leaves the larger-than side
+    rotated, so on sorted input those samples keep picking near-smallest
+    pivots and the sort slows to a crawl.
     """
-    pivot = _median_of_three(items[low], items[(low + high) // 2], items[high])
+    pivot = items[randrange(low, high + 1)]
     lt = low
     gt = high
     i = low
@@ -95,12 +107,3 @@ def _partition(items, low, high):
             i += 1
 
     return lt, gt
-
-
-def _median_of_three(a, b, c):
-    """Return the middle value of three, a pivot choice that avoids the worst case."""
-    if (a <= b <= c) or (c <= b <= a):
-        return b
-    if (b <= a <= c) or (c <= a <= b):
-        return a
-    return c
