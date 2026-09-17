@@ -73,7 +73,8 @@ def interpolation_search(items, target):
         if items[high] == items[low]:  # all remaining numbers are equal, avoids division by zero
             return low if items[low] == target else -1
 
-        pos = low + (high - low) * (target - items[low]) // (items[high] - items[low])
+        # int() keeps the guess a whole number, so lists of floats work too
+        pos = low + int((high - low) * (target - items[low]) / (items[high] - items[low]))
 
         if items[pos] == target:
             return pos

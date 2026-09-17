@@ -59,3 +59,17 @@ def test_random_sorted_lists(search):
             assert numbers[index] == target
         else:
             assert index == -1
+
+
+@pytest.mark.parametrize("search", ALL_SEARCHES)
+def test_searches_work_on_floats(search):
+    numbers = [1.5, 2.25, 3.0, 9.75]
+    for target in numbers:
+        index = search(numbers, target)
+        assert index != -1 and numbers[index] == target
+    assert search(numbers, 4.5) == -1
+
+
+def test_interpolation_search_handles_float_positions():
+    # the estimated position used to come out as a float and raise TypeError
+    assert interpolation_search([1.0, 2.0, 3.0], 3.0) == 2
