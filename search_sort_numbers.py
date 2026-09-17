@@ -10,10 +10,10 @@ def find_sort(filename):
         choice = input("Enter your option's number: ").strip()
 
         if choice == "1":
-            print("The sorted list is", merge_sort(lst))
+            print("The sorted list is", preview(merge_sort(lst)))
         elif choice == "2":
             number = int(input("Enter the number you want to find it's index: "))
-            print("Starting Linear Search for number", number, "in list", lst)
+            print("Starting Linear Search for number", number, "in list", preview(lst))
             index = linear_search(lst, number)
             if index != -1:
                 print("Number found at index ", index)
@@ -22,7 +22,7 @@ def find_sort(filename):
         elif choice == "3":
             number = int(input("Enter the number you want to find it's index: "))
             lst.sort()
-            print("Starting Binary Search for number", number, "in list", lst)
+            print("Starting Binary Search for number", number, "in sorted list", preview(lst))
             index = binary_search(lst, 0, len(lst) - 1, number)
             if index != -1:
                 print("Number found at index ", index)
@@ -31,7 +31,7 @@ def find_sort(filename):
         elif choice == "4":
             number = int(input("Enter the number you want to find it's index: "))
             lst.sort()
-            print("Starting Interpolation Search for number", number, "in list", lst)
+            print("Starting Interpolation Search for number", number, "in sorted list", preview(lst))
             index = interpolation_search(lst, number)
             if index != -1:
                 print("Number found at index ", index)
@@ -41,6 +41,13 @@ def find_sort(filename):
             exit()
         else:
             print("Try again, choice", choice,"doesn't exist!")
+
+def preview(plst, size=10):
+    # long lists are shortened so the terminal isn't flooded
+    if len(plst) <= 2 * size:
+        return str(plst)
+    return "[{}, ..., {}] ({} numbers)".format(
+        ", ".join(map(str, plst[:size])), ", ".join(map(str, plst[-size:])), len(plst))
 
 def file_toList(ftl):
     with open(ftl) as f:
