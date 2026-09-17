@@ -1,7 +1,7 @@
 import random
 
 from .searching import binary_search, interpolation_search, linear_search
-from .sorting import merge_sort
+from .sorting import merge_sort, quick_sort
 
 DEFAULT_SIZE = 100000
 MAX_SIZE = 1000000  # bigger lists make merge sort slow enough to look stuck
@@ -18,12 +18,14 @@ def find_sort():
     lst = new_random_list()
 
     while True:
-        print(" \nChoose an option\n 1)Merge Sort\n 2)Linear Search\n 3)Binary Search\n 4)Interpolation Search\n 5)Generate a new random list\n 0)EXIT\n")
+        print(" \nChoose an option\n 1)Merge Sort\n 2)Quick Sort\n 3)Linear Search\n 4)Binary Search\n 5)Interpolation Search\n 6)Generate a new random list\n 0)EXIT\n")
         choice = input("Enter your option's number: ").strip()
 
         if choice == "1":
             print("The sorted list is", preview(merge_sort(lst)))
         elif choice == "2":
+            print("The sorted list is", preview(quick_sort(lst)))
+        elif choice == "3":
             number = read_number()
             print("Starting Linear Search for number", number, "in list", preview(lst))
             index = linear_search(lst, number)
@@ -31,7 +33,7 @@ def find_sort():
                 print("Number found at index ", index)
             else:
                 print("Number not found!")
-        elif choice == "3":
+        elif choice == "4":
             number = read_number()
             sorted_lst = merge_sort(lst)
             print("Starting Binary Search for number", number, "in sorted list", preview(sorted_lst))
@@ -40,7 +42,7 @@ def find_sort():
                 print("Number found at index ", index)
             else:
                 print("Number not found!")
-        elif choice == "4":
+        elif choice == "5":
             number = read_number()
             sorted_lst = merge_sort(lst)
             print("Starting Interpolation Search for number", number, "in sorted list", preview(sorted_lst))
@@ -49,7 +51,7 @@ def find_sort():
                 print("Number found at index ", index)
             else:
                 print("Number not found!")
-        elif choice == "5":
+        elif choice == "6":
             lst = new_random_list()
         elif choice == "0":
             return
