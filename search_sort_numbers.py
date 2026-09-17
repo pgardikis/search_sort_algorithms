@@ -23,7 +23,7 @@ def find_sort(filename):
             number = int(input("Enter the number you want to find it's index: "))
             lst.sort()
             print("Starting Binary Search for number", number, "in list", lst)
-            index = binary_search(lst, 0, len(lst), number)
+            index = binary_search(lst, 0, len(lst) - 1, number)
             if index != -1:
                 print("Number found at index ", index)
             else:
@@ -99,11 +99,11 @@ def binary_search(blst, low, high, num_to_find):
     if high < low:
         return -1
 
-    mid = (low + high) // 2  # calculates the middle nummber of the list
+    mid = (low + high) // 2  # calculates the middle index of the list
     if num_to_find < blst[mid]:
-        return binary_search(blst, low, mid - 1, num_to_find) # checks at the right of the mid number
+        return binary_search(blst, low, mid - 1, num_to_find) # checks at the left of the mid number
     elif num_to_find > blst[mid]:
-        return binary_search(blst, mid + 1, high, num_to_find) # checks at the left of the mid number
+        return binary_search(blst, mid + 1, high, num_to_find) # checks at the right of the mid number
     else:
         return mid # the requested number is mid
 
