@@ -4,6 +4,7 @@ from .searching import binary_search, interpolation_search, linear_search
 from .sorting import merge_sort
 
 DEFAULT_SIZE = 100000
+MAX_SIZE = 1000000  # bigger lists make merge sort slow enough to look stuck
 MAX_VALUE = 1000000
 
 
@@ -68,16 +69,16 @@ def random_list(size, max_value=MAX_VALUE):
 
 def read_size():
     while True:
-        answer = input("How many random numbers? (press Enter for {}): ".format(DEFAULT_SIZE)).strip()
+        answer = input("How many random numbers, up to {}? (press Enter for {}): ".format(MAX_SIZE, DEFAULT_SIZE)).strip()
         if answer == "":
             return DEFAULT_SIZE
         try:
             size = int(answer)
         except ValueError:
             size = -1
-        if size >= 0:
+        if 0 <= size <= MAX_SIZE:
             return size
-        print("Please enter a whole number of 0 or more!")
+        print("Please enter a whole number from 0 to {}!".format(MAX_SIZE))
 
 def read_number():
     while True:
