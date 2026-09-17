@@ -15,7 +15,7 @@ Merge Sort, Linear Search, Binary Search and Interpolation Search implemented fr
 
 ## Running
 
-Requires Python 3.9 or newer. There are no other dependencies.
+Requires Python 3.10 or newer. There are no other dependencies.
 
 From the project folder:
 
