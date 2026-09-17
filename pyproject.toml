@@ -13,8 +13,10 @@ license-files = ["LICENSE"]
 authors = [{ name = "pgardikis" }]
 
 [project.optional-dependencies]
-test = ["pytest"]
-ci = ["pytest-github-actions-annotate-failures"]
+# libraries float, tools are pinned so every run uses the same version
+test = ["pytest>=7"]
+ci = ["pytest-github-actions-annotate-failures==0.4.2"]
+lint = ["ruff==0.16.8"]
 
 [project.scripts]
 search-sort = "search_sort.cli:main"

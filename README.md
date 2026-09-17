@@ -1,6 +1,7 @@
 # Search and Sort Algorithms
 
 [![Tests](https://github.com/pgardikis/search-sort-algorithms/actions/workflows/tests.yml/badge.svg)](https://github.com/pgardikis/search-sort-algorithms/actions/workflows/tests.yml)
+[![Lint](https://github.com/pgardikis/search-sort-algorithms/actions/workflows/lint.yml/badge.svg)](https://github.com/pgardikis/search-sort-algorithms/actions/workflows/lint.yml)
 [![Python](https://img.shields.io/badge/python-3.10%20%7C%203.12%20%7C%203.14-blue)](https://www.python.org/downloads/)
 [![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
 
@@ -128,7 +129,7 @@ The suite covers:
 - **Regression tests** — the `IndexError`, divide-by-zero and quadratic-pivot bugs this project has had
 - **The menu and the benchmark** — input validation, the size limit, and the sorted list being reused
 
-Every push runs them on Python 3.10, 3.12 and 3.14 through [GitHub Actions](.github/workflows/tests.yml).
+Every push runs them on Python 3.10, 3.12 and 3.14 through [GitHub Actions](.github/workflows/tests.yml), and a second workflow checks the code with [ruff](.github/workflows/lint.yml).
 
 ---
 
