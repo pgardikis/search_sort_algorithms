@@ -56,21 +56,23 @@ Binary and Interpolation Search first sort the list with Merge Sort, so the inde
 
 ## Benchmark
 
-Menu option 7 times every algorithm on random lists of 1,000, 10,000 and 100,000 numbers. Example run:
+Menu option 7 times every algorithm on random lists of 1,000, 10,000 and 100,000 numbers. Results from one run:
 
-```
-Sorting a list (milliseconds)
-      size            Merge Sort            Quick Sort
-      1000                 1.039                 0.711
-     10000                11.887                 9.118
-    100000               146.589               123.460
+**Sorting a list** (milliseconds, lower is better)
 
-Finding one number (microseconds, average of 200 searches)
-      size         Linear Search         Binary Search  Interpolation Search
-      1000                 9.397                 0.599                 0.427
-     10000               116.133                 0.873                 0.532
-    100000               932.197                 1.401                 0.698
-```
+| List size | Merge Sort | Quick Sort |
+|---:|---:|---:|
+| 1,000 | 1.039 | **0.711** |
+| 10,000 | 11.887 | **9.118** |
+| 100,000 | 146.589 | **123.460** |
+
+**Finding one number** (microseconds, average of 200 searches)
+
+| List size | Linear Search | Binary Search | Interpolation Search |
+|---:|---:|---:|---:|
+| 1,000 | 9.397 | 0.599 | **0.427** |
+| 10,000 | 116.133 | 0.873 | **0.532** |
+| 100,000 | 932.197 | 1.401 | **0.698** |
 
 Quick sort is consistently faster than merge sort here, and both grow in step with the list size. The searches show the difference between the complexities: a list 100 times longer makes linear search about 100 times slower, while binary search barely moves and interpolation search stays fastest because the random numbers are evenly spread.
 
