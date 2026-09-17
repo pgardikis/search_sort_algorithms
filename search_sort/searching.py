@@ -1,40 +1,41 @@
 # Linear Search
-def linear_search(llst, num_to_find):
-
-    for i in range(len(llst)):  # checks the list items until it finds the required one
-        if num_to_find == llst[i]:
+def linear_search(items, target):
+    for i, value in enumerate(items):  # checks the list items until it finds the required one
+        if value == target:
             return i
 
     return -1
 
 # Binary Search
-def binary_search(blst, low, high, num_to_find):
+def binary_search(items, target):
+    low = 0
+    high = len(items) - 1
 
-    if high < low:
-        return -1
+    while low <= high:
+        mid = (low + high) // 2  # calculates the middle index of the list
+        if target < items[mid]:
+            high = mid - 1  # checks at the left of the mid number
+        elif target > items[mid]:
+            low = mid + 1  # checks at the right of the mid number
+        else:
+            return mid  # the requested number is mid
 
-    mid = (low + high) // 2  # calculates the middle index of the list
-    if num_to_find < blst[mid]:
-        return binary_search(blst, low, mid - 1, num_to_find) # checks at the left of the mid number
-    elif num_to_find > blst[mid]:
-        return binary_search(blst, mid + 1, high, num_to_find) # checks at the right of the mid number
-    else:
-        return mid # the requested number is mid
+    return -1
 
 # Interpolation Search
-def interpolation_search(ilst, num_to_find):
-    high = len(ilst) - 1
+def interpolation_search(items, target):
     low = 0
+    high = len(items) - 1
 
-    while (low <= high) and (num_to_find >= ilst[low]) and (num_to_find <= ilst[high]):
-        if ilst[high] == ilst[low]:  # all remaining numbers are equal, avoids division by zero
-            return low if ilst[low] == num_to_find else -1
+    while low <= high and items[low] <= target <= items[high]:
+        if items[high] == items[low]:  # all remaining numbers are equal, avoids division by zero
+            return low if items[low] == target else -1
 
-        pos = low + (high - low) * (num_to_find - ilst[low]) // (ilst[high] - ilst[low])
+        pos = low + (high - low) * (target - items[low]) // (items[high] - items[low])
 
-        if ilst[pos] == num_to_find:
+        if items[pos] == target:
             return pos
-        elif num_to_find > ilst[pos]:
+        elif target > items[pos]:
             low = pos + 1
         else:
             high = pos - 1

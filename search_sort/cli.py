@@ -39,7 +39,7 @@ def find_sort(filename):
             number = read_number()
             lst.sort()
             print("Starting Binary Search for number", number, "in sorted list", preview(lst))
-            index = binary_search(lst, 0, len(lst) - 1, number)
+            index = binary_search(lst, number)
             if index != -1:
                 print("Number found at index ", index)
             else:
