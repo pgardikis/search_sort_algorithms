@@ -1,5 +1,13 @@
-# Merge Sort
 def merge_sort(items):
+    """Sort a list of numbers using merge sort.
+
+    Splits the list into two halves, sorts each half, then merges the
+    two sorted halves into one. Equal numbers keep their original order.
+
+    Returns a new sorted list. The input list is not changed.
+
+    Time: O(n log n). Extra space: O(n).
+    """
     if len(items) <= 1:
         return list(items)
 
