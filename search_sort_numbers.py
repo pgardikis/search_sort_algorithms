@@ -1,5 +1,5 @@
 def main():
-    file_t = raw_input("Enter txt filename or path: ")
+    file_t = input("Enter txt filename or path: ")
     find_sort(file_t)
 
 def find_sort(filename):
@@ -7,7 +7,7 @@ def find_sort(filename):
 
     while(1):
         print(" \nChoose an option\n 1)Merge Sort\n 2)Linear Search\n 3)Binary Search\n 4)Interpolation Search\n 0)EXIT\n")
-        choice = str(input("Enter your option's number: "))
+        choice = input("Enter your option's number: ").strip()
 
         if choice == "1":
             print("The sorted list is", merge_sort(lst))

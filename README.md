@@ -5,7 +5,7 @@ Implementation in Python of Merge Sort, Linear Search, Interpolation Search and 
 ## Running the script
 
 ```bash
-python search_sort_numbers.py
+python3 search_sort_numbers.py
 ```
 
-The input file extension should be ```.txt```
+Requires Python 3. The input file extension should be ```.txt``` with one integer per line, e.g. ```test_files/integers.txt```
