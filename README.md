@@ -85,17 +85,6 @@ pytest
 
 The tests compare the algorithms with Python's built-in `sorted()` on edge cases (empty lists, duplicates, negative numbers, missing numbers) and hundreds of random lists.
 
-## Using the algorithms in your own code
-
-```python
-from search_sort.sorting import merge_sort
-from search_sort.searching import binary_search
-
-numbers = merge_sort([42, 7, 19, 7])  # [7, 7, 19, 42]
-binary_search(numbers, 19)            # 2
-binary_search(numbers, 100)           # -1 (not found)
-```
-
 ## Project structure
 
 ```
