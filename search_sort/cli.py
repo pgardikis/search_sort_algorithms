@@ -37,18 +37,18 @@ def find_sort(filename):
                 print("Number not found!")
         elif choice == "3":
             number = read_number()
-            lst.sort()
-            print("Starting Binary Search for number", number, "in sorted list", preview(lst))
-            index = binary_search(lst, number)
+            sorted_lst = merge_sort(lst)
+            print("Starting Binary Search for number", number, "in sorted list", preview(sorted_lst))
+            index = binary_search(sorted_lst, number)
             if index != -1:
                 print("Number found at index ", index)
             else:
                 print("Number not found!")
         elif choice == "4":
             number = read_number()
-            lst.sort()
-            print("Starting Interpolation Search for number", number, "in sorted list", preview(lst))
-            index = interpolation_search(lst, number)
+            sorted_lst = merge_sort(lst)
+            print("Starting Interpolation Search for number", number, "in sorted list", preview(sorted_lst))
+            index = interpolation_search(sorted_lst, number)
             if index != -1:
                 print("Number found at index ", index)
             else:
