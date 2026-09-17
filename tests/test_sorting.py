@@ -2,7 +2,7 @@ import random
 
 import pytest
 
-from search_sort.sorting import merge_sort
+from search_sort.sorting import merge_sort, quick_sort
 
 EDGE_CASES = [
     [],
@@ -15,27 +15,45 @@ EDGE_CASES = [
 ]
 
 
+SORTS = [merge_sort, quick_sort]
+
+
+@pytest.mark.parametrize("sort", SORTS)
 @pytest.mark.parametrize("numbers", EDGE_CASES)
-def test_sorts_edge_cases(numbers):
-    assert merge_sort(numbers) == sorted(numbers)
+def test_sorts_edge_cases(sort, numbers):
+    assert sort(numbers) == sorted(numbers)
 
 
-def test_sorts_random_lists():
+@pytest.mark.parametrize("sort", SORTS)
+def test_sorts_random_lists(sort):
     rng = random.Random(42)
     for _ in range(300):
         numbers = [rng.randint(-100, 100) for _ in range(rng.randint(0, 200))]
-        assert merge_sort(numbers) == sorted(numbers)
+        assert sort(numbers) == sorted(numbers)
 
 
-def test_does_not_change_the_input():
+@pytest.mark.parametrize("sort", SORTS)
+def test_does_not_change_the_input(sort):
     numbers = [3, 1, 2]
-    merge_sort(numbers)
+    sort(numbers)
     assert numbers == [3, 1, 2]
 
 
-def test_returns_a_new_list():
+@pytest.mark.parametrize("sort", SORTS)
+def test_returns_a_new_list(sort, numbers=None):
     numbers = [1]
-    assert merge_sort(numbers) is not numbers
+    assert sort(numbers) is not numbers
+
+
+@pytest.mark.parametrize("sort", SORTS)
+@pytest.mark.parametrize(
+    "numbers",
+    [list(range(2000)), list(range(2000, 0, -1)), [7] * 2000],
+    ids=["already-sorted", "reversed", "all-equal"],
+)
+def test_handles_worst_case_inputs_quickly(sort, numbers):
+    # these inputs make a naive quick sort slow or hit the recursion limit
+    assert sort(numbers) == sorted(numbers)
 
 
 def test_is_stable():
