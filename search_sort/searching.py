@@ -8,7 +8,7 @@ def linear_search(items, target):
 
     Time: O(n). Extra space: O(1).
     """
-    for i, value in enumerate(items):  # checks the list items until it finds the required one
+    for i, value in enumerate(items):
         if value == target:
             return i
 
@@ -31,13 +31,13 @@ def binary_search(items, target):
     high = len(items) - 1
 
     while low <= high:
-        mid = (low + high) // 2  # calculates the middle index of the list
+        mid = (low + high) // 2
         if target < items[mid]:
-            high = mid - 1  # checks at the left of the mid number
+            high = mid - 1
         elif target > items[mid]:
-            low = mid + 1  # checks at the right of the mid number
+            low = mid + 1
         else:
-            return mid  # the requested number is mid
+            return mid
 
     return -1
 

@@ -11,7 +11,7 @@ def merge_sort(items):
     if len(items) <= 1:
         return list(items)
 
-    mid = len(items) // 2  # finds the middle index of the list and separates the list into two halves
+    mid = len(items) // 2
     left = merge_sort(items[:mid])
     right = merge_sort(items[mid:])
 
