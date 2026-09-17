@@ -8,4 +8,4 @@ Implementation in Python of Merge Sort, Linear Search, Interpolation Search and 
 python3 -m search_sort
 ```
 
-Requires Python 3. The input file extension should be ```.txt``` with one integer per line, e.g. ```test_files/integers.txt```
+Requires Python 3. The program generates a list of random numbers (100,000 by default, you can choose how many), then lets you run each algorithm on it. Option 5 in the menu generates a new list.
